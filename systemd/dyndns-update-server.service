@@ -5,11 +5,10 @@ After=network-online.target
 [Service]
 Type=simple
 User=dyndnsupdateserver
-Environment=PATH=/opt/dyndns-update-server/.venv/bin
 EnvironmentFile=-/opt/dyndns-update-server/.env
 EnvironmentFile=-/opt/dyndns-update-server/.secrets
 WorkingDirectory=/opt/dyndns-update-server
-ExecStart=/opt/dyndns-update-server/.venv/bin/python /opt/dyndns-update-server/dyndns-update-server.py
+ExecStart=/usr/bin/python3 /opt/dyndns-update-server/dyndns-update-server.py
 Restart=on-failure
 RestartSec=10s
 KillSignal=SIGINT
