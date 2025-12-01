@@ -9,7 +9,10 @@ Tailored towards receiving requests from a FritzBox.
 ## Usage
 
 1. Copy files in [src/](./src/) to server (recommended location: `/opt/dyndns-update-server/`)
-1. Install dependencies (python venv recommended): `pip install fastapi 'uvicorn[standard]' 'aiohttp[speedups]'`
+1. Install dependencies:
+   - [fastapi](https://fastapi.tiangolo.com/#installation)
+   - [uvicorn](https://uvicorn.dev/installation/)
+   - [aiohttp](https://docs.aiohttp.org/en/stable/index.html#library-installation)
 1. Create and configure environment file (see top of [dyndns-update-server.py](./src/dyndns-update-server.py) for possible vars).
    Optionally create and configure secrets environment file for tokens/etc. and restrict it's file permissions.
 1. Copy [dyndns-update-server.service](./systemd/dyndns-update-server.service) to `/etc/systemd/system/` and edit it for your configuration
