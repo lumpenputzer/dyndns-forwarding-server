@@ -2,7 +2,7 @@
 
 from ipaddress import IPv4Address, IPv4Network, IPv6Address, IPv6Network
 
-from aiohttp import ClientSession
+from aiohttp import BasicAuth, ClientSession
 
 
 # Represents a generic DynDNS target (provider + identifying token + ip addresses)
@@ -120,6 +120,37 @@ class NamecheapDynDNSTarget(DynDNSTarget):
             params["ip"] = self._new_ipv4.compressed
 
         async with session.get(self.__URL, params=params) as response:
+            response_ok = response.ok
+
+        if response_ok:
+            # Success
+            self._last_successful_ipv4 = self._new_ipv4
+            self._last_successful_ipv6 = self._new_ipv6
+
+        return response_ok
+
+
+# Represents an INWX DynDNS target
+# See https://www.inwx.de/offer/dyndns
+class INWXDynDNSTarget(DynDNSTarget):
+    __URL: str = "https://dyndns.inwx.com/nic/update"
+
+    def __init__(
+        self, username: str, password: str, ipv6_suffix: IPv6Address | None = None
+    ):
+        super().__init__(username, ipv6_suffix)
+        self.__basic_auth: BasicAuth = BasicAuth(username, password)
+
+    async def do_update(self, session: ClientSession) -> bool:
+        params = {}
+        if self._new_ipv4 is not None:
+            params["myip"] = self._new_ipv4.compressed
+        if self._new_ipv6 is not None:
+            params["myipv6"] = self._new_ipv6.compressed
+
+        async with session.get(
+            self.__URL, auth=self.__basic_auth, params=params
+        ) as response:
             response_ok = response.ok
 
         if response_ok:

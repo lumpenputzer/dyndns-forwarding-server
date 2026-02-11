@@ -23,7 +23,12 @@ import uvicorn
 from fastapi import Depends, FastAPI, HTTPException, Response, status
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 
-from dyndnsutil import DynDNSTarget, IonosDynDNSTarget, NamecheapDynDNSTarget
+from dyndnsutil import (
+    DynDNSTarget,
+    INWXDynDNSTarget,
+    IonosDynDNSTarget,
+    NamecheapDynDNSTarget,
+)
 
 ### EDIT THE FOLLOWING SECTION
 
